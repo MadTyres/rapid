@@ -234,6 +234,26 @@ func StringMatching(expr string) *Generator[string] {
 	})
 }
 
+func UUID_V1() *Generator[string] {
+	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1][0-9a-fA-F]{3}-[89AB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+}
+
+func UUID_V2() *Generator[string] {
+	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[2][0-9a-fA-F]{3}-[89AB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+}
+
+func UUID_V3() *Generator[string] {
+	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[3][0-9a-fA-F]{3}-[89AB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+}
+
+func UUID_V4() *Generator[string] {
+	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89AB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+}
+
+func UUID_V5() *Generator[string] {
+	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[5][0-9a-fA-F]{3}-[89AB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+}
+
 // SliceOfBytesMatching creates a UTF-8 byte slice generator matching the provided [syntax.Perl] regular expression.
 func SliceOfBytesMatching(expr string) *Generator[[]byte] {
 	compiled, err := compileRegexp(expr)
