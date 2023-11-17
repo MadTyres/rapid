@@ -26,7 +26,7 @@ import (
 	"sort"
 	"testing"
 
-	"pgregory.net/rapid"
+	"github.com/MadTyres/rapid"
 )
 
 func TestSortStrings(t *testing.T) {
@@ -55,7 +55,7 @@ Rapid aims to bring to Go the power and convenience
 Compared to [testing.F.Fuzz](https://pkg.go.dev/testing#F.Fuzz), rapid shines
 in generating complex structured data, including state machine tests, but lacks
 coverage-guided feedback and mutations. Note that with
-[`MakeFuzz`](https://pkg.go.dev/pgregory.net/rapid#MakeFuzz), any rapid test
+[`MakeFuzz`](https://pkg.go.dev/github.com/MadTyres/rapid#MakeFuzz), any rapid test
 can be used as a fuzz target for the standard fuzzer.
 
 Compared to [gopter](https://pkg.go.dev/github.com/leanovate/gopter), rapid
@@ -140,7 +140,7 @@ broadly applicable and often encountered properties to keep in mind:
 
 - function does not panic on valid input data
 - behavior of two algorithms or data structures is identical
-- all variants of the  `decode(encode(x)) == x` roundtrip
+- all variants of the `decode(encode(x)) == x` roundtrip
 
 ### How does rapid work?
 
@@ -171,7 +171,7 @@ generation that maximizes the coverage.
 Both approaches are useful. Property-based tests are used alongside regular
 example-based tests during development, and fuzzing is used to search for edge
 cases and security vulnerabilities. With
-[`MakeFuzz`](https://pkg.go.dev/pgregory.net/rapid#MakeFuzz), any rapid test
+[`MakeFuzz`](https://pkg.go.dev/github.com/MadTyres/rapid#MakeFuzz), any rapid test
 can be used as a fuzz target.
 
 ## Usage
@@ -197,7 +197,7 @@ type, or other similar mostly non-breaking changes.
 
 Rapid is licensed under the [Mozilla Public License Version 2.0](./LICENSE).
 
-[godev-img]: https://pkg.go.dev/badge/pgregory.net/rapid
-[godev]: https://pkg.go.dev/pgregory.net/rapid
+[godev-img]: https://pkg.go.dev/badge/github.com/MadTyres/rapid
+[godev]: https://pkg.go.dev/github.com/MadTyres/rapid
 [ci-img]: https://github.com/flyingmutant/rapid/workflows/CI/badge.svg
 [ci]: https://github.com/flyingmutant/rapid/actions

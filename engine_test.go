@@ -29,7 +29,7 @@ func TestPanicTraceback(t *testing.T) {
 	}{
 		{
 			"impossible filter",
-			"pgregory.net/rapid.find[...]",
+			"github.com/MadTyres/rapid.find[...]",
 			false,
 			func(t *T) *testError {
 				g := Bool().Filter(func(bool) bool { return false })
@@ -39,7 +39,7 @@ func TestPanicTraceback(t *testing.T) {
 		},
 		{
 			"broken custom generator",
-			"pgregory.net/rapid.brokenGen",
+			"github.com/MadTyres/rapid.brokenGen",
 			false,
 			func(t *T) *testError {
 				g := Custom(brokenGen)
@@ -49,7 +49,7 @@ func TestPanicTraceback(t *testing.T) {
 		},
 		{
 			"broken state machine",
-			"pgregory.net/rapid.(*brokenMachine).DoNothing",
+			"github.com/MadTyres/rapid.(*brokenMachine).DoNothing",
 			true,
 			func(t *T) *testError {
 				return checkOnce(t, func(t *T) {

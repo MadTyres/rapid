@@ -9,7 +9,7 @@ package rapid_test
 import (
 	"testing"
 
-	. "pgregory.net/rapid"
+	. "github.com/MadTyres/rapid"
 )
 
 func checkInt(t *T) {

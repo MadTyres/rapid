@@ -1,4 +1,4 @@
-module pgregory.net/rapid
+module github.com/MadTyres/rapid
 
 go 1.18
 

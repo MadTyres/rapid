@@ -9,7 +9,7 @@ package rapid_test
 import (
 	"fmt"
 
-	"pgregory.net/rapid"
+	"github.com/MadTyres/rapid"
 )
 
 func ExampleSliceOf() {
