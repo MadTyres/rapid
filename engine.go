@@ -61,7 +61,7 @@ func init() {
 	flag.IntVar(&flags.checks, "rapid.checks", 100, "rapid: number of checks to perform")
 	flag.IntVar(&flags.steps, "rapid.steps", 30, "rapid: average number of Repeat actions to execute")
 	flag.StringVar(&flags.failfile, "rapid.failfile", "", "rapid: fail file to use to reproduce test failure")
-	flag.BoolVar(&flags.nofailfile, "rapid.nofailfile", false, "rapid: do not write fail files on test failures")
+	flag.BoolVar(&flags.nofailfile, "rapid.nofailfile", true, "rapid: do not write fail files on test failures")
 	flag.Uint64Var(&flags.seed, "rapid.seed", 0, "rapid: PRNG seed to start with (0 to use a random one)")
 	flag.BoolVar(&flags.log, "rapid.log", false, "rapid: eager verbose output to stdout (to aid with unrecoverable test failures)")
 	flag.BoolVar(&flags.verbose, "rapid.v", false, "rapid: verbose output")
@@ -221,9 +221,9 @@ func checkTB(tb tb, deadline time.Time, prop func(*T)) {
 		name := regexp.QuoteMeta(tb.Name())
 		if traceback(err1) == traceback(err2) {
 			if err2.isStopTest() {
-				tb.Errorf("[rapid] failed after %v tests: %v\nTo reproduce, specify -run=%q %v\nFailed test output:", valid, err2, name, repr)
+				tb.Errorf("[rapid] failed after %v tests.\nTo reproduce, specify -run=%q %v\nFailed test output:", valid, name, repr)
 			} else {
-				tb.Errorf("[rapid] panic after %v tests: %v\nTo reproduce, specify -run=%q %v\nTraceback:\n%vFailed test output:", valid, err2, name, repr, traceback(err2))
+				tb.Errorf("[rapid] panic after %v tests.\nTo reproduce, specify -run=%q %v\nTraceback:\n%vFailed test output:", valid, name, repr, traceback(err2))
 			}
 		} else {
 			tb.Errorf("[rapid] flaky test, can not reproduce a failure\nTo try to reproduce, specify -run=%q %v\nTraceback (%v):\n%vOriginal traceback (%v):\n%vFailed test output:", name, repr, err2, traceback(err2), err1, traceback(err1))
@@ -577,6 +577,9 @@ func (t *T) SkipNow() {
 }
 
 // Errorf is equivalent to [T.Logf] followed by [T.Fail].
+// TODO: implement special handling to play nice with testify.assert/require
+// TODO: possibly just format and output generator draws.
+// Do the same for all calls
 func (t *T) Errorf(format string, args ...any) {
 	if t.tbLog {
 		t.tb.Helper()
