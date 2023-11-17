@@ -360,9 +360,7 @@ func findBug(tb tb, deadline time.Time, checks int, seed uint64, prop func(*T)) 
 }
 
 func checkOnce(t *T, prop func(*T)) (err *testError) {
-	if t.tbLog {
-		t.tb.Helper()
-	}
+	t.tb.Helper()
 	defer func() { err = panicToError(recover(), 3) }()
 
 	prop(t)
@@ -438,15 +436,7 @@ func (err *testError) isStopTest() bool {
 }
 
 func sameError(err1 *testError, err2 *testError) bool {
-	return errorString(err1) == errorString(err2) && traceback(err1) == traceback(err2)
-}
-
-func errorString(err *testError) string {
-	if err == nil {
-		return ""
-	}
-
-	return err.Error()
+	return traceback(err1) == traceback(err2)
 }
 
 func traceback(err *testError) string {
