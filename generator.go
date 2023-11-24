@@ -7,11 +7,10 @@
 package rapid
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"sync"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 type generatorImpl[V any] interface {
@@ -63,8 +62,9 @@ func (g *Generator[V]) Draw(t *T, label string) V {
 		if t.tbLog {
 			t.tb.Helper()
 		}
-		val := spew.Sdump(v)
-		t.Logf("\n[rapid] draw %v:\n%#v", label, val)
+		b, _ := json.MarshalIndent(v, "", "  ")
+		val := string(b)
+		t.Logf("\n[rapid] draw %v:\n%s", label, val)
 
 	}
 
