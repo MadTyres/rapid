@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"reflect"
 	"sync"
+
+	"github.com/kr/pretty"
 )
 
 type generatorImpl[V any] interface {
@@ -61,7 +63,8 @@ func (g *Generator[V]) Draw(t *T, label string) V {
 		if t.tbLog {
 			t.tb.Helper()
 		}
-		t.Logf("[rapid] draw %v: %#v", label, v)
+		t.Log(pretty.Sprintf("[rapid] draw %v:\n%#v", label, v))
+
 	}
 
 	t.draws++
