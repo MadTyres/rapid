@@ -7,11 +7,10 @@
 package rapid
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"sync"
-
-	"github.com/kr/pretty"
 )
 
 type generatorImpl[V any] interface {
@@ -63,7 +62,9 @@ func (g *Generator[V]) Draw(t *T, label string) V {
 		if t.tbLog {
 			t.tb.Helper()
 		}
-		t.Log(pretty.Sprintf("[rapid] draw %v:\n%#v", label, v))
+		b, _ := json.MarshalIndent(v, "", "  ")
+		val := string(b)
+		t.Logf("\n[rapid] draw %v:\n%#v", label, val)
 
 	}
 
