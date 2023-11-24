@@ -254,6 +254,22 @@ func UUID_V5() *Generator[string] {
 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[5][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
 }
 
+func i64tob(val uint64) []byte {
+	r := make([]byte, 8)
+	for i := uint64(0); i < 8; i++ {
+		r[i] = byte((val >> (i * 8)) & 0xff)
+	}
+	return r
+}
+
+func btoi64(val []byte) uint64 {
+	r := uint64(0)
+	for i := uint64(0); i < 8; i++ {
+		r |= uint64(val[i]) << (8 * i)
+	}
+	return r
+}
+
 // SliceOfBytesMatching creates a UTF-8 byte slice generator matching the provided [syntax.Perl] regular expression.
 func SliceOfBytesMatching(expr string) *Generator[[]byte] {
 	compiled, err := compileRegexp(expr)
