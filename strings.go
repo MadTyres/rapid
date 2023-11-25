@@ -269,13 +269,23 @@ func i64tob(val uint64) []byte {
 	return r
 }
 
-// func btoi64(val []byte) uint64 {
-// 	r := uint64(0)
-// 	for i := uint64(0); i < 8; i++ {
-// 		r |= uint64(val[i]) << (8 * i)
-// 	}
-// 	return r
-// }
+func btoi64(val []byte) uint64 {
+	r := uint64(0)
+	for i := uint64(0); i < 8; i++ {
+		r |= uint64(val[i]) << (8 * i)
+	}
+	return r
+}
+func uint64ToLenBytes(v uint64, l int) (b []byte) {
+	b = make([]byte, l)
+
+	for i := 0; i < l; i++ {
+		f := 8 * i
+		b[i] = byte(v >> f)
+	}
+
+	return
+}
 
 type uuidGen struct {
 }
@@ -287,7 +297,7 @@ func (*uuidGen) String() string {
 func (g *uuidGen) value(t *T) string {
 	i := t.s.beginGroup(g.String(), false)
 	bits := t.s.drawBits(128)
-	bytes := i64tob(bits)
+	bytes := uint64ToLenBytes(bits, 16)
 	uuid, err := uuid.FromBytes(bytes)
 	if err != nil {
 		panic("uuid generator did not draw enough bytes, please investigate")
