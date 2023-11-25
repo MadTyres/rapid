@@ -16,6 +16,8 @@ import (
 	"sync"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/google/uuid"
 )
 
 var (
@@ -254,6 +256,11 @@ func UUID_V5() *Generator[string] {
 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[5][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
 }
 
+func UUID() *Generator[string] {
+	return newGenerator[string](
+		&uuidGen{},
+	)
+}
 func i64tob(val uint64) []byte {
 	r := make([]byte, 8)
 	for i := uint64(0); i < 8; i++ {
@@ -262,12 +269,31 @@ func i64tob(val uint64) []byte {
 	return r
 }
 
-func btoi64(val []byte) uint64 {
-	r := uint64(0)
-	for i := uint64(0); i < 8; i++ {
-		r |= uint64(val[i]) << (8 * i)
+// func btoi64(val []byte) uint64 {
+// 	r := uint64(0)
+// 	for i := uint64(0); i < 8; i++ {
+// 		r |= uint64(val[i]) << (8 * i)
+// 	}
+// 	return r
+// }
+
+type uuidGen struct {
+}
+
+func (*uuidGen) String() string {
+	return "UUID()"
+}
+
+func (g *uuidGen) value(t *T) string {
+	i := t.s.beginGroup(g.String(), false)
+	bits := t.s.drawBits(128)
+	bytes := i64tob(bits)
+	uuid, err := uuid.FromBytes(bytes)
+	if err != nil {
+		panic("uuid generator did not draw enough bytes, please investigate")
 	}
-	return r
+	t.s.endGroup(i, false)
+	return uuid.String()
 }
 
 // SliceOfBytesMatching creates a UTF-8 byte slice generator matching the provided [syntax.Perl] regular expression.
