@@ -236,46 +236,34 @@ func StringMatching(expr string) *Generator[string] {
 	})
 }
 
-func UUID_V1() *Generator[string] {
-	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-}
+//These don't work optimally, as the bit matching algorithm is not probably to cause duplicates
+// UUID() generator will not produce a specific version of uuid, so bear that in mind if casting to V4 from string
+// func UUID_V1() *Generator[string] {
+// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+// }
 
-func UUID_V2() *Generator[string] {
-	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[2][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-}
+// func UUID_V2() *Generator[string] {
+// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[2][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+// }
 
-func UUID_V3() *Generator[string] {
-	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[3][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-}
+// func UUID_V3() *Generator[string] {
+// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[3][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+// }
 
-func UUID_V4() *Generator[string] {
-	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-}
+// func UUID_V4() *Generator[string] {
+// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+// }
 
-func UUID_V5() *Generator[string] {
-	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[5][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-}
+// func UUID_V5() *Generator[string] {
+// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[5][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+// }
 
 func UUID() *Generator[string] {
 	return newGenerator[string](
 		&uuidGen{},
 	)
 }
-func i64tob(val uint64) []byte {
-	r := make([]byte, 8)
-	for i := uint64(0); i < 8; i++ {
-		r[i] = byte((val >> (i * 8)) & 0xff)
-	}
-	return r
-}
 
-func btoi64(val []byte) uint64 {
-	r := uint64(0)
-	for i := uint64(0); i < 8; i++ {
-		r |= uint64(val[i]) << (8 * i)
-	}
-	return r
-}
 func uint64ToLenBytes(v uint64, l int) (b []byte) {
 	b = make([]byte, l)
 
