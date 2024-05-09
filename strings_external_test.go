@@ -12,10 +12,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/MadTyres/rapid"
 	. "github.com/MadTyres/rapid"
-	"github.com/gofrs/uuid/v5"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestStringExamples(t *testing.T) {
@@ -25,14 +22,6 @@ func TestStringExamples(t *testing.T) {
 		s := g.Example()
 		t.Log(len(s), s)
 	}
-}
-
-func TestUUIDV4(t *testing.T) {
-	rapid.Check(t, func(t *rapid.T) {
-		gen := UUID_V4()
-		_, err := uuid.FromString(gen.Draw(t, "a"))
-		assert.Nil(t, err)
-	})
 }
 
 func TestRegexpExamples(t *testing.T) {

@@ -16,8 +16,6 @@ import (
 	"sync"
 	"unicode"
 	"unicode/utf8"
-
-	"github.com/google/uuid"
 )
 
 var (
@@ -234,64 +232,6 @@ func StringMatching(expr string) *Generator[string] {
 			re:   compiled.re,
 		},
 	})
-}
-
-//These don't work optimally, as the bit matching algorithm is not probably to cause duplicates
-// UUID() generator will not produce a specific version of uuid, so bear that in mind if casting to V4 from string
-// func UUID_V1() *Generator[string] {
-// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-// }
-
-// func UUID_V2() *Generator[string] {
-// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[2][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-// }
-
-// func UUID_V3() *Generator[string] {
-// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[3][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-// }
-
-// func UUID_V4() *Generator[string] {
-// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-// }
-
-// func UUID_V5() *Generator[string] {
-// 	return StringMatching("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[5][0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
-// }
-
-func UUID() *Generator[string] {
-	return newGenerator[string](
-		&uuidGen{},
-	)
-}
-
-func uint64ToLenBytes(v uint64, l int) (b []byte) {
-	b = make([]byte, l)
-
-	for i := 0; i < l; i++ {
-		f := 8 * i
-		b[i] = byte(v >> f)
-	}
-
-	return
-}
-
-type uuidGen struct {
-}
-
-func (*uuidGen) String() string {
-	return "UUID()"
-}
-
-func (g *uuidGen) value(t *T) string {
-	i := t.s.beginGroup(g.String(), false)
-	bits := t.s.drawBits(128)
-	bytes := uint64ToLenBytes(bits, 16)
-	uuid, err := uuid.FromBytes(bytes)
-	if err != nil {
-		panic("uuid generator did not draw enough bytes, please investigate")
-	}
-	t.s.endGroup(i, false)
-	return uuid.String()
 }
 
 // SliceOfBytesMatching creates a UTF-8 byte slice generator matching the provided [syntax.Perl] regular expression.
